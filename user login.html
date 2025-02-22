@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login & Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            color: black;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #D92B78;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #b02464;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        .toggle {
+            margin-top: 15px;
+            color: #D92B78;
+            cursor: pointer;
+        }
+        .light-mode {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="auth-section">
+        <div class="box" id="login-box">
+            <h2>Login</h2>
+            <input type="text" id="login-username" placeholder="Enter Username">
+            <input type="password" id="login-password" placeholder="Enter Password">
+            <button onclick="login()">Login</button>
+            <p class="error-message" id="login-error-message"></p>
+            <p class="toggle" onclick="showSignup()">Don't have an account? Sign up</p>
+        </div>
+        
+        <div class="box" id="signup-box" style="display: none;">
+            <h2>Sign Up</h2>
+            <input type="text" id="signup-username" placeholder="Choose a Username">
+            <input type="password" id="signup-password" placeholder="Choose a Password">
+            <button onclick="signup()">Sign Up</button>
+            <p class="error-message" id="signup-error-message"></p>
+            <p class="toggle" onclick="showLogin()">Already have an account? Login</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (loggedInUser) {
+                document.getElementById("auth-section").innerHTML = `
+                    <h2>Welcome, ${loggedInUser}!</h2>
+                    <button onclick="logout()">Logout</button>
+                    <button onclick="toggleTheme()">Toggle Theme</button>
+                `;
+            }
+            if (localStorage.getItem("theme") === "light") {
+                document.body.classList.add("light-mode");
+            }
+        });
+
+        function showSignup() {
+            document.getElementById("login-box").style.display = "none";
+            document.getElementById("signup-box").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("signup-box").style.display = "none";
+            document.getElementById("login-box").style.display = "block";
+        }
+
+        function signup() {
+            const username = document.getElementById("signup-username").value;
+            const password = document.getElementById("signup-password").value;
+            
+            if (username && password) {
+                localStorage.setItem(username, password);
+                alert("Signup successful! You can now login.");
+                showLogin();
+            } else {
+                document.getElementById("signup-error-message").textContent = "Please enter valid credentials.";
+            }
+        }
+
+        function login() {
+            const username = document.getElementById("login-username").value;
+            const password = document.getElementById("login-password").value;
+            
+            if (localStorage.getItem(username) === password) {
+                localStorage.setItem("loggedInUser", username);
+                window.location.href = 'home.html';
+            } else {
+                document.getElementById("login-error-message").textContent = "Invalid credentials!";
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            window.location.reload();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("light-mode");
+            localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
+        }
+    </script>
+</body>
+</html>

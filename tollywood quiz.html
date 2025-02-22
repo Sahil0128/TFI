@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tollywood Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .question-container {
+            background-color: #D92B78;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            justify-content: center;
+            max-width: 600px;
+            margin: auto;
+        }
+        .option {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background 0.2s;
+            text-align: center;
+            color: black; /* Ensuring text is visible */
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .option:hover {
+            transform: scale(1.05);
+            background: #ffcc00;
+        }
+        .correct {
+            background: #4CAF50 !important;
+            color: white;
+        }
+        .wrong {
+            background: #F44336 !important;
+            color: white;
+        }
+        #score {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            background: #444;
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            width: 0;
+            background: #ffcc00;
+            transition: width 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tollywood Quiz</h1>
+        <div class="progress-bar"><div class="progress" id="progress"></div></div>
+        <div class="question-container" id="question"></div>
+        <div class="options" id="options"></div>
+        <div id="score">Score: 0</div>
+    </div>
+    
+    <script>
+        const quizData = [
+            { question: "Who is known as the iconic star?", options: ["AA", "PK", "VT", "SDT"], answer: "AA" },
+            { question: "When was Bahubali 2 released?", options: ["2016", "2017", "2018", "2019"], answer: "2017" },
+            { question: "Who directed RRR?", options: ["Rajamouli", "Sukumar", "Trivikram", "Puri Jagannadh"], answer: "Rajamouli" },
+            { question: "Which Tollywood actor is called 'Power Star'?", options: ["Mahesh Babu", "Pawan Kalyan", "NTR Jr", "Ram Charan"], answer: "Pawan Kalyan" },
+            { question: "Which is the highest-grossing Tollywood movie as of 2023?", options: ["Baahubali 2", "RRR", "Pushpa", "KGF 2"], answer: "Baahubali 2" },
+            { question: "Which Tollywood actor is known as 'Young Tiger'?", options: ["Allu Arjun", "NTR Jr", "Ram Charan", "Vijay Deverakonda"], answer: "NTR Jr" },
+            { question: "Which director is famous for the movie 'Arjun Reddy'?", options: ["Sandeep Reddy Vanga", "Sukumar", "Rajamouli", "Trivikram"], answer: "Sandeep Reddy Vanga" }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            document.getElementById("progress").style.width = ((currentQuestionIndex / quizData.length) * 100) + "%";
+            const questionEl = document.getElementById("question");
+            const optionsEl = document.getElementById("options");
+            const currentQuestion = quizData[currentQuestionIndex];
+            questionEl.textContent = currentQuestion.question;
+            optionsEl.innerHTML = "";
+
+            currentQuestion.options.forEach(option => {
+                const div = document.createElement("div");
+                div.className = "option";
+                div.textContent = option;
+                div.onclick = () => checkAnswer(div, option);
+                optionsEl.appendChild(div);
+            });
+        }
+
+        function checkAnswer(element, selectedOption) {
+            const currentQuestion = quizData[currentQuestionIndex];
+            if (selectedOption === currentQuestion.answer) {
+                element.classList.add("correct");
+                score++;
+            } else {
+                element.classList.add("wrong");
+            }
+            setTimeout(nextQuestion, 1000);
+            document.getElementById("score").textContent = "Score: " + score;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("question").textContent = "Quiz Completed!";
+                document.getElementById("options").innerHTML = "";
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
