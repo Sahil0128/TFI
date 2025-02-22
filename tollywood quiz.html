@@ -134,7 +134,13 @@
         }
 
         function checkAnswer(element, selectedOption, correctAnswer) {
-            if (selectedOption === correctAnswer) {
+            let cleanSelected = selectedOption.trim().toLowerCase();
+            let cleanCorrect = correctAnswer.trim().toLowerCase();
+
+            console.log("Selected:", cleanSelected);
+            console.log("Correct:", cleanCorrect);
+
+            if (cleanSelected === cleanCorrect) {
                 element.classList.add("correct");
                 score++;
             } else {
