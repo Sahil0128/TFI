@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tollywood Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,7 +43,7 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, background 0.2s;
             text-align: center;
-            color: black; /* Ensuring text is visible */
+            color: black;
             font-size: 1.2em;
             font-weight: bold;
         }
@@ -88,59 +89,65 @@
     </div>
     
     <script>
-        const quizData = [
-            { question: "Who is known as the iconic star?", options: ["AA", "PK", "VT", "SDT"], answer: "AA" },
-            { question: "When was Bahubali 2 released?", options: ["2016", "2017", "2018", "2019"], answer: "2017" },
-            { question: "Who directed RRR?", options: ["Rajamouli", "Sukumar", "Trivikram", "Puri Jagannadh"], answer: "Rajamouli" },
-            { question: "Which Tollywood actor is called 'Power Star'?", options: ["Mahesh Babu", "Pawan Kalyan", "NTR Jr", "Ram Charan"], answer: "Pawan Kalyan" },
-            { question: "Which is the highest-grossing Tollywood movie as of 2023?", options: ["Baahubali 2", "RRR", "Pushpa", "KGF 2"], answer: "Baahubali 2" },
-            { question: "Which Tollywood actor is known as 'Young Tiger'?", options: ["Allu Arjun", "NTR Jr", "Ram Charan", "Vijay Deverakonda"], answer: "NTR Jr" },
-            { question: "Which director is famous for the movie 'Arjun Reddy'?", options: ["Sandeep Reddy Vanga", "Sukumar", "Rajamouli", "Trivikram"], answer: "Sandeep Reddy Vanga" }
-        ];
-        
+        let quizData = [];
         let currentQuestionIndex = 0;
         let score = 0;
 
+        function fetchQuizData() {
+            fetch('questions.xlsx')  // Replace with actual server path
+                .then(response => response.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: "array" });
+                        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                        quizData = XLSX.utils.sheet_to_json(sheet);
+                        loadQuestion();
+                    };
+                    reader.readAsArrayBuffer(blob);
+                })
+                .catch(error => console.error("Error loading quiz data:", error));
+        }
+
         function loadQuestion() {
+            if (currentQuestionIndex >= quizData.length) {
+                document.getElementById("question").textContent = "Quiz Completed!";
+                document.getElementById("options").innerHTML = "";
+                return;
+            }
             document.getElementById("progress").style.width = ((currentQuestionIndex / quizData.length) * 100) + "%";
             const questionEl = document.getElementById("question");
             const optionsEl = document.getElementById("options");
             const currentQuestion = quizData[currentQuestionIndex];
-            questionEl.textContent = currentQuestion.question;
+
+            questionEl.textContent = currentQuestion.Question;
             optionsEl.innerHTML = "";
 
-            currentQuestion.options.forEach(option => {
+            ["Option A", "Option B", "Option C", "Option D"].forEach(option => {
                 const div = document.createElement("div");
                 div.className = "option";
-                div.textContent = option;
-                div.onclick = () => checkAnswer(div, option);
+                div.textContent = currentQuestion[option];
+                div.onclick = () => checkAnswer(div, currentQuestion[option], currentQuestion["Correct Answer"]);
                 optionsEl.appendChild(div);
             });
         }
 
-        function checkAnswer(element, selectedOption) {
-            const currentQuestion = quizData[currentQuestionIndex];
-            if (selectedOption === currentQuestion.answer) {
+        function checkAnswer(element, selectedOption, correctAnswer) {
+            if (selectedOption === correctAnswer) {
                 element.classList.add("correct");
                 score++;
             } else {
                 element.classList.add("wrong");
             }
-            setTimeout(nextQuestion, 1000);
-            document.getElementById("score").textContent = "Score: " + score;
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
+            setTimeout(() => {
+                currentQuestionIndex++;
                 loadQuestion();
-            } else {
-                document.getElementById("question").textContent = "Quiz Completed!";
-                document.getElementById("options").innerHTML = "";
-            }
+                document.getElementById("score").textContent = "Score: " + score;
+            }, 1000);
         }
 
-        loadQuestion();
+        fetchQuizData();  // Load questions when the page loads
     </script>
 </body>
 </html>
