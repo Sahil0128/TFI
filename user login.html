@@ -123,7 +123,7 @@
             
             if (localStorage.getItem(username) === password) {
                 localStorage.setItem("loggedInUser", username);
-                window.location.href = 'tryhome.html';
+                window.location.href = 'index.html';
             } else {
                 document.getElementById("login-error-message").textContent = "Invalid credentials!";
             }
