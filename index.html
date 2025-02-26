@@ -60,9 +60,11 @@
             animation: scroll 20s linear infinite;
         }
         .scroll-content img {
-            width: 150px;
-            height: auto;
-            margin: 0 15px;
+          width: 180px;  /* Adjust width as needed */
+          height: 270px; /* Adjust height as needed */
+          object-fit: cover; /* Ensures the images fill the set dimensions without distortion */
+          margin: 0 15px;
+          border-radius: 8px; /* Optional: adds rounded corners */
         }
         @keyframes scroll {
             from {
