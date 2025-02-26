@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tollywood News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .section {
+            background: #222;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0px 4px 8px rgba(255, 204, 0, 0.5);
+        }
+        .news-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            transition: transform 0.3s;
+        }
+        .news-item:hover {
+            transform: scale(1.05);
+        }
+        .news-item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+        }
+        .news-item a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 20px;
+            flex: 1;
+            margin-left: 15px;
+        }
+        .news-item a:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latest Tollywood News</h1>
+        <div class="section">
+            <div class="news-item">
+                <img src="https://static.toiimg.com/thumb/msid-87930571,width-600,height-400,resizemode-4,imgsize-102004/.jpg" alt="Tollywood News">
+                <a href="https://www.indiatoday.in/movies/regional-cinema" target="_blank">India Today - Tollywood</a>
+            </div>
+            <div class="news-item">
+                <img src="https://static.toiimg.com/photo/67586673.cms" alt="Tollywood News">
+                <a href="https://timesofindia.indiatimes.com/entertainment/telugu/movies/news" target="_blank">Times of India - Telugu Movies</a>
+            </div>
+            <div class="news-item">
+                <img src="https://www.filmibeat.com/img/2021/11/filmibeat-logo-1636046675.jpg" alt="Filmibeat News">
+                <a href="https://www.filmibeat.com/telugu/" target="_blank">Filmibeat - Telugu News</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
