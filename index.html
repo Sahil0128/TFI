@@ -48,6 +48,30 @@
         .buttons a:hover {
             background-color: #0056b3;
         }
+        .scroll-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-top: 40px;
+            padding: 10px 0;
+        }
+        .scroll-content {
+            display: inline-block;
+            animation: scroll 30s linear infinite;
+        }
+        .scroll-content img {
+            width: 150px;
+            height: auto;
+            margin: 0 15px;
+        }
+        @keyframes scroll {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
     </style>
 </head>
 <body>
@@ -65,6 +89,17 @@
         <a href="https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M">Best Playlists</a>
         <a href="tollywood_quiz.html">Tollywood Quiz</a>
         <a href="news.html">News</a>
+    </div>
+    
+    <div class="scroll-container">
+        <div class="scroll-content">
+            <img src="https://example.com/athadu.jpg" alt="Athadu">
+            <img src="https://example.com/magadheera.jpg" alt="Magadheera">
+            <img src="https://example.com/baahubali.jpg" alt="Baahubali: The Beginning">
+            <img src="https://example.com/nannaku_prematho.jpg" alt="Nannaku Prematho">
+            <img src="https://example.com/saakshyam.jpg" alt="Saakshyam">
+            <!-- Add more images as needed -->
+        </div>
     </div>
 </body>
 </html>
