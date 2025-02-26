@@ -49,15 +49,14 @@
             background-color: #0056b3;
         }
         .scroll-container {
-            width: 100%;
+            display: flex;
             overflow: hidden;
             white-space: nowrap;
-            margin-top: 40px;
-            padding: 10px 0;
+            position: relative;
         }
         .scroll-content {
-            display: inline-block;
-            animation: scroll 20s linear infinite;
+            display: flex;
+            animation: scrollLoop 10s linear infinite;
         }
         .scroll-content img {
           width: 180px;  /* Adjust width as needed */
@@ -68,10 +67,10 @@
         }
         @keyframes scroll {
             from {
-                transform: translateX(100%);
+                transform: translateX(0%);
             }
             to {
-                transform: translateX(-100%);
+                transform: translateX(-50%);
             }
         }
     </style>
@@ -107,5 +106,17 @@
             <img src="Rangasthalam.jpg" alt="Rangasthalam">
         </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const scrollContainer = document.querySelector(".scroll-content");
+          const images = [...scrollContainer.children]; // Get all images
+      
+          // Duplicate images to create a seamless loop effect
+          images.forEach((img) => {
+              let clone = img.cloneNode(true);
+              scrollContainer.appendChild(clone);
+          });
+      });
+      </script>      
 </body>
 </html>
