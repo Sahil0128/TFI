@@ -43,6 +43,7 @@
             border-radius: 5px;
             text-decoration: none;
             margin: 10px;
+            margin-bottom: 30px;
             display: inline-block;
         }
         .buttons a:hover {
@@ -52,17 +53,17 @@
             display: flex;
             overflow: hidden;
             white-space: nowrap;
-            position: relative;
+            width: 100%;
         }
         .scroll-content {
             display: flex;
-            animation: scrollLoop 10s linear infinite;
+            gap: 10px;
         }
         .scroll-content img {
           width: 180px;  /* Adjust width as needed */
           height: 270px; /* Adjust height as needed */
           object-fit: cover; /* Ensures the images fill the set dimensions without distortion */
-          margin: 0 15px;
+          margin: 0 10px;
           border-radius: 8px; /* Optional: adds rounded corners */
         }
         @keyframes scroll {
@@ -108,15 +109,27 @@
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-          const scrollContainer = document.querySelector(".scroll-content");
-          const images = [...scrollContainer.children]; // Get all images
+          const scrollContainer = document.querySelector(".scroll-container");
+          const scrollContent = document.querySelector(".scroll-content");
       
-          // Duplicate images to create a seamless loop effect
-          images.forEach((img) => {
-              let clone = img.cloneNode(true);
-              scrollContainer.appendChild(clone);
-          });
+          if (scrollContainer && scrollContent) {
+              // Duplicate content for seamless effect
+              scrollContent.innerHTML += scrollContent.innerHTML;
+              let scrollAmount = 0;
+              let scrollSpeed = 1; // Adjust speed if needed
+      
+              function autoScroll() {
+                  scrollAmount += scrollSpeed;
+                  if (scrollAmount >= scrollContent.scrollWidth / 2) {
+                      scrollAmount = 0; // Reset scroll when reaching halfway
+                  }
+                  scrollContainer.scrollLeft = scrollAmount;
+                  requestAnimationFrame(autoScroll);
+              }
+      
+              autoScroll();
+          }
       });
-      </script>      
+      </script>            
 </body>
 </html>
